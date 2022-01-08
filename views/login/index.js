@@ -86,6 +86,7 @@ exports.login = function(req, res){
 
   workflow.on('attemptLogin', function() {
     req._passport.instance.authenticate('local', function(err, user, info) {
+
       if (err) {
         return workflow.emit('exception', err);
       }
@@ -103,7 +104,10 @@ exports.login = function(req, res){
       }
       else {
         req.login(user, function(err) {
+
           if (err) {
+
+            console.log('I\'m in login->index.js->attemptlogin->else->in error' + '\n' + err);
             return workflow.emit('exception', err);
           }
 

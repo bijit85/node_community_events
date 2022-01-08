@@ -17,6 +17,7 @@ exports = module.exports = function(req, res, options) {
 
   var renderText = function(callback) {
     res.render(options.textPath, options.locals, function(err, text) {
+
       if (err) {
         callback(err, null);
       }
@@ -51,6 +52,7 @@ exports = module.exports = function(req, res, options) {
   require('async').parallel(
     renderers,
     function(err, results){
+
       if (err) {
         options.error('Email template render failed. '+ err);
         return;
@@ -68,8 +70,11 @@ exports = module.exports = function(req, res, options) {
         }
       }
 
+      console.log("I'm in sendmail->index.js->parallel->before emailjs");
       var emailjs = require('emailjs/email');
+      console.log("I'm in sendmail->index.js->parallel->after emailjs");
       var emailer = emailjs.server.connect( req.app.config.smtp.credentials );
+
       emailer.send({
         from: options.from,
         to: options.to,
